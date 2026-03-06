@@ -1,34 +1,32 @@
-import java.util.ArrayDeque;
-import java.util.Deque;
 import java.util.Scanner;
 
 public class PalindromeCheckerApp {
-    public static boolean isPalindromeRecursive(String str) {
-        if (str == null || str.length() <= 1) {
-            return true;
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Enter a string to check if it's a palindrome: ");
+        String input = scanner.nextLine();
+
+        String cleanString = input.replaceAll("[^a-zA-Z0-9]", "").toLowerCase();
+
+        if (isPalindrome(cleanString)) {
+            System.out.println("\"" + input + "\" is a palindrome.");
+        } else {
+            System.out.println("\"" + input + "\" is not a palindrome.");
         }
 
-
-        String cleanedStr = str.replaceAll("[^a-zA-Z0-9]", "").toLowerCase();
-
-
-        if (cleanedStr.charAt(0) != cleanedStr.charAt(cleanedStr.length() - 1)) {
-            return false;
-        }
-
-
-        return isPalindromeRecursive(cleanedStr.substring(1, cleanedStr.length() - 1));
+        scanner.close();
     }
 
-    public static void main(String[] args) {
-        String test1 = "madam";
-        String test2 = "racecar";
-        String test3 = "A man, a plan, a canal, Panama"; // Case & punctuation test
-        String test4 = "hello";
-
-        System.out.println("Testing \"" + test1 + "\": " + isPalindromeRecursive(test1));
-        System.out.println("Testing \"" + test2 + "\": " + isPalindromeRecursive(test2));
-        System.out.println("Testing \"" + test3 + "\": " + isPalindromeRecursive(test3));
-        System.out.println("Testing \"" + test4 + "\": " + isPalindromeRecursive(test4));
+    public static boolean isPalindrome(String s) {
+        int left = 0;
+        int right = s.length() - 1;
+        while (left < right) {
+            if (s.charAt(left) != s.charAt(right)) {
+                return false;
+            }
+            left++;
+            right--;
+        }
+        return true;
     }
 }

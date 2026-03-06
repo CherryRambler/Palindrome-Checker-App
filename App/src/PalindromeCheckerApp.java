@@ -2,30 +2,30 @@ import java.util.Scanner;
 
 public class PalindromeCheckerApp {
     public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
+        String input = "deified";
 
-        System.out.print("Enter a string: ");
-        String originalString = scanner.nextLine();
+        char[] charArray = input.toCharArray();
 
-        String reversedString = "";
+        boolean isPalindrome = true;
 
 
-        for (int i = originalString.length() - 1; i >= 0; i--) {
-            reversedString += originalString.charAt(i);
+        int left = 0;
+        int right = charArray.length - 1;
+
+        while (left < right) {
+
+            if (charArray[left] != charArray[right]) {
+                isPalindrome = false;
+                break;
+            }
+            left++;
+            right--;
         }
-
-
-        boolean isPalindrome = originalString.equals(reversedString);
-
-        System.out.println("Original String: " + originalString);
-        System.out.println("Reversed String: " + reversedString);
 
         if (isPalindrome) {
-            System.out.println("Result: The given string IS a palindrome.");
+            System.out.println("'" + input + "' is a palindrome.");
         } else {
-            System.out.println("Result: The given string IS NOT a palindrome.");
+            System.out.println("'" + input + "' is not a palindrome.");
         }
-
-        scanner.close();
     }
 }

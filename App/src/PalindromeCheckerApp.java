@@ -4,44 +4,101 @@ import java.util.Scanner;
 
 public class PalindromeCheckerApp {
 
-    public static boolean isPalindromeDeque(String str) {
-        String cleanStr = str.replaceAll("[^a-zA-Z0-9]", "").toLowerCase();
-
-        Deque<Character> deque = new ArrayDeque<>();
-        for (char c : cleanStr.toCharArray()) {
-            deque.addLast(c);
+    public static class Node {
+        char data;
+        Node next;
+        Node(char d) {
+            data = d;
+            next = null;
         }
+    }
 
-        while (deque.size() > 1) {
-            char first = deque.removeFirst();
-            char last = deque.removeLast();
+    private Node head;
 
-            if (first != last) {
-                return false;
+    public void insert(char data) {
+        Node newNode = new Node(data);
+        if (head == null) {
+            head = newNode;
+            return;
+        }
+        Node last = head;
+        while (last.next != null) {
+            last = last.next;
+        }
+        last.next = newNode;
+    }
+
+    public boolean isPalindrome() {
+        if (head == null || head.next == null) {
+            return true;
+        }
+        Node slow = head;
+        Node fast = head;
+        while (fast.next != null && fast.next.next != null) {
+            slow = slow.next;
+            fast = fast.next.next;
+        }
+        Node secondHalfHead = reverseList(slow.next);
+        Node firstHalfPointer = head;
+        Node secondHalfPointer = secondHalfHead;
+        boolean isPalindrome = true;
+        while (secondHalfPointer != null) {
+            if (firstHalfPointer.data != secondHalfPointer.data) {
+                isPalindrome = false;
+                break;
             }
+            firstHalfPointer = firstHalfPointer.next;
+            secondHalfPointer = secondHalfPointer.next;
         }
 
-        return true;
+
+        return isPalindrome;
+    }
+
+    private Node reverseList(Node headNode) {
+        Node prev = null;
+        Node current = headNode;
+        Node next = null;
+        while (current != null) {
+            next = current.next;
+            current.next = prev;
+            prev = current;
+            current = next;
+        }
+        return prev;
     }
 
     public static void main(String[] args) {
-        Scanner in = new Scanner(System.in);
-        System.out.println("Palindrome Checker App (UC7) - Deque Implementation");
-        System.out.print("Enter any string to check: ");
-        String inputString = in.nextLine();
-
-        if (isPalindromeDeque(inputString)) {
-            System.out.println("\"" + inputString + "\" is a palindrome.");
-        } else {
-            System.out.println("\"" + inputString + "\" is not a palindrome.");
+        String testString1 = "madam";
+        PalindromeCheckerApp list1 = new PalindromeCheckerApp(); // Corrected class name
+        for (char c : testString1.toCharArray()) {
+            list1.insert(c);
         }
+        System.out.println("String: " + testString1);
+        System.out.println("Is Palindrome? " + list1.isPalindrome());
+        System.out.println("-" .repeat(20));
 
-        String testStr = "A man, a plan, a canal: Panama";
-        System.out.println("\nTesting another example: \"" + testStr + "\"");
-        if (isPalindromeDeque(testStr)) {
-            System.out.println("\"" + testStr + "\" is a palindrome: " + isPalindromeDeque(testStr));
+        String testString2 = "hello";
+        PalindromeCheckerApp list2 = new PalindromeCheckerApp(); // Corrected class name
+        for (char c : testString2.toCharArray()) {
+            list2.insert(c);
         }
+        System.out.println("String: " + testString2);
+        System.out.println("Is Palindrome? " + list2.isPalindrome());
+        System.out.println("-" .repeat(20));
 
-        in.close();
+        try (Scanner scanner = new Scanner(System.in)) {
+            System.out.print("Enter a string to check for palindrome: ");
+            String userInput = scanner.nextLine();
+
+            userInput = userInput.replaceAll("[^a-zA-Z]", "").toLowerCase();
+
+            PalindromeCheckerApp userList = new PalindromeCheckerApp();
+            for (char c : userInput.toCharArray()) {
+                userList.insert(c);
+            }
+            System.out.println("Cleaned string: " + userInput);
+            System.out.println("Is Palindrome? " + userList.isPalindrome());
+        }
     }
 }

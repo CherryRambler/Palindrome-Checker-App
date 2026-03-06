@@ -1,31 +1,38 @@
 import java.util.Scanner;
+import java.util.Stack;
 
 public class PalindromeCheckerApp {
-    public static void main(String[] args) {
-        String input = "deified";
 
-        char[] charArray = input.toCharArray();
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("Enter a string to check for palindrome: ");
+        String originalInput = scanner.nextLine();
+
+        String normalizedString = originalInput.replaceAll("[^a-zA-Z0-9]", "").toLowerCase();
+
+        Stack<Character> stack = new Stack<>();
+
+        for (int i = 0; i < normalizedString.length(); i++) {
+            stack.push(normalizedString.charAt(i));
+        }
 
         boolean isPalindrome = true;
+        for (int i = 0; i < normalizedString.length(); i++) {
+            char poppedChar = stack.pop();
 
-
-        int left = 0;
-        int right = charArray.length - 1;
-
-        while (left < right) {
-
-            if (charArray[left] != charArray[right]) {
+            if (poppedChar != normalizedString.charAt(i)) {
                 isPalindrome = false;
                 break;
             }
-            left++;
-            right--;
         }
 
         if (isPalindrome) {
-            System.out.println("'" + input + "' is a palindrome.");
+            System.out.println("Result: \"" + originalInput + "\" is a Palindrome.");
         } else {
-            System.out.println("'" + input + "' is not a palindrome.");
+            System.out.println("Result: \"" + originalInput + "\" is NOT a Palindrome.");
         }
+
+        scanner.close();
     }
 }

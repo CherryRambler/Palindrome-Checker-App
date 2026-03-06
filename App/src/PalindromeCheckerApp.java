@@ -27,7 +27,6 @@ class PalindromeChecker {
     }
 }
 public class PalindromeCheckerApp {
-
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         PalindromeChecker checker = new PalindromeChecker();
